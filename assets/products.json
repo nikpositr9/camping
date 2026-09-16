@@ -110,5 +110,60 @@
     "price": 990,
     "img": "stove",
     "cat": "kitchen"
+  },
+  {
+    "id": "family",
+    "name": "Семейная палатка",
+    "desc": "Для семейного кемпинга",
+    "price": 16900,
+    "img": "tent-classic",
+    "src": "assets/tent-family.jpg",
+    "cat": "tents",
+    "kind": "classic",
+    "specs": [
+      "520 × 300 × 210 см",
+      "6–8 человек"
+    ]
+  },
+  {
+    "id": "glamping",
+    "name": "Палатка для глэмпинга",
+    "desc": "Отдых на одном месте",
+    "price": 27900,
+    "img": "tent-classic",
+    "src": "assets/tent-glamping.jpg",
+    "cat": "tents",
+    "kind": "classic",
+    "specs": [
+      "500 × 400 × 280 см",
+      "4–6 человек"
+    ]
+  },
+  {
+    "id": "air-large",
+    "name": "Большая надувная палатка",
+    "desc": "Просторный лагерь",
+    "price": 34900,
+    "img": "tent-air",
+    "src": "assets/tent-main.jpg",
+    "cat": "tents",
+    "kind": "air",
+    "specs": [
+      "600 × 400 × 250 см",
+      "8–10 человек"
+    ]
+  },
+  {
+    "id": "canopy-large",
+    "name": "Большой тент для лагеря",
+    "desc": "Зона отдыха под навесом",
+    "price": 5900,
+    "img": "canopy",
+    "cat": "tents",
+    "kind": "canopy",
+    "specs": [
+      "500 × 400 см",
+      "20 м²"
+    ]
   }
 ]
