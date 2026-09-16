@@ -1,0 +1,80 @@
+const PRODUCTS = [{"id": "air", "name": "Надувная палатка", "desc": "Просторный лагерь для семьи", "price": 18900, "img": "tent-air", "cat": "tents", "kind": "air", "specs": ["400 × 300 × 220 см", "4–6 человек"]}, {"id": "classic", "name": "Классическая палатка", "desc": "Каркасная конструкция", "price": 14900, "img": "tent-classic", "cat": "tents", "kind": "classic", "specs": ["300 × 260 × 150 см", "3–4 человека"]}, {"id": "roof", "name": "Палатка на крышу авто", "desc": "Для путешествий на автомобиле", "price": 29900, "img": "tent-roof", "cat": "tents", "kind": "roof", "specs": ["210 × 130 × 120 см", "2–3 человека"]}, {"id": "canopy", "name": "Тент для лагеря", "desc": "Тень над вашей зоной отдыха", "price": 3900, "img": "canopy", "cat": "tents", "kind": "canopy", "specs": ["400 × 400 см", "16 м²"]}, {"id": "family", "name": "Семейная палатка", "desc": "Для семейного кемпинга", "price": 16900, "img": "tent-classic", "src": "assets/tent-family.jpg", "cat": "tents", "kind": "classic", "specs": ["520 × 300 × 210 см", "6–8 человек"]}, {"id": "glamping", "name": "Палатка для глэмпинга", "desc": "Отдых на одном месте", "price": 27900, "img": "tent-classic", "src": "assets/tent-glamping.jpg", "cat": "tents", "kind": "classic", "specs": ["500 × 400 × 280 см", "4–6 человек"]}, {"id": "air-large", "name": "Большая надувная палатка", "desc": "Просторный лагерь", "price": 34900, "img": "tent-air", "src": "assets/tent-main.jpg", "cat": "tents", "kind": "air", "specs": ["600 × 400 × 250 см", "8–10 человек"]}, {"id": "canopy-large", "name": "Большой тент для лагеря", "desc": "Зона отдыха под навесом", "price": 5900, "img": "canopy", "cat": "tents", "kind": "canopy", "specs": ["500 × 400 см", "20 м²"]}, {"id": "power", "name": "Портативная электростанция", "desc": "Энергия для ваших устройств", "price": 12900, "img": "power", "cat": "power", "solution": "Энергия"}, {"id": "lantern", "name": "Кемпинговый фонарь", "desc": "Свет за общим столом", "price": 1200, "img": "lantern", "cat": "power", "solution": "Свет"}, {"id": "heat", "name": "Обогреватель для кемпинга", "desc": "Подбор под условия использования", "price": 2900, "img": "heat", "cat": "heating", "solution": "Тепло"}, {"id": "shower", "name": "Походный душ", "desc": "Гигиена вдали от инфраструктуры", "price": 1800, "img": "shower", "cat": "hygiene", "solution": "Гигиена"}, {"id": "chair", "name": "Складное кресло", "desc": "Место для спокойного вечера", "price": 1290, "img": "chair", "cat": "furniture"}, {"id": "table", "name": "Складной стол", "desc": "Для кухни и общего завтрака", "price": 1890, "img": "table", "cat": "furniture"}, {"id": "sleep", "name": "Спальный мешок", "desc": "Уют после насыщенного дня", "price": 2400, "img": "sleeping-bag", "cat": "sleep"}, {"id": "cook", "name": "Набор посуды", "desc": "Кухня, которую берёте с собой", "price": 1600, "img": "cookware", "cat": "kitchen"}, {"id": "stove", "name": "Походная горелка", "desc": "Компактное решение для готовки", "price": 990, "img": "stove", "cat": "kitchen"}];
+'use strict';
+const config=window.CAMPORA_CONFIG||{};
+const categories={tents:'Палатки',heating:'Отопление',kitchen:'Кухня',sleep:'Сон и уют',furniture:'Мебель',power:'Свет и энергия',hygiene:'Туалет и душ',accessories:'Аксессуары'};
+const money=n=>new Intl.NumberFormat('ru-RU').format(n)+' лей';
+const findProduct=id=>PRODUCTS.find(p=>p.id===id);
+const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const svg=n=>`<svg class="icon" aria-hidden="true"><use href="#i-${n}"></use></svg>`;
+let cart={};
+try{const saved=JSON.parse(localStorage.getItem('campora-cart-v1')||'{}');if(saved&&typeof saved==='object')for(const [id,n]of Object.entries(saved)){if(findProduct(id)&&Number.isInteger(n)&&n>0)cart[id]=Math.min(n,99)}}catch{}
+let lastFocus=null;
+function openDialog(id){const dlg=document.getElementById(id);if(!dlg)return;lastFocus=document.activeElement;document.querySelectorAll('dialog[open]').forEach(d=>d.close());dlg.showModal();document.body.classList.add('modal-open')}
+function closeDialog(dlg){dlg.close();document.body.classList.remove('modal-open');if(lastFocus?.isConnected)lastFocus.focus({preventScroll:true})}
+document.querySelectorAll('dialog').forEach(d=>{d.addEventListener('close',()=>{if(!document.querySelector('dialog[open]'))document.body.classList.remove('modal-open')});d.addEventListener('click',e=>{if(e.target!==d)return;const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeDialog(d)})});
+function saveCart(){try{localStorage.setItem('campora-cart-v1',JSON.stringify(cart))}catch{}renderCart()}
+function renderCart(){const entries=Object.entries(cart);const count=entries.reduce((s,[,n])=>s+n,0);document.querySelectorAll('.cart-count').forEach(e=>e.textContent=count);document.querySelectorAll('.cart-trigger').forEach(e=>e.setAttribute('aria-label',`Открыть корзину, товаров: ${count}`));document.getElementById('cart-items').innerHTML=entries.length?entries.map(([id,n])=>{const p=findProduct(id);return `<article class="cart-row"><img src="${p.src || `assets/v5/${p.img}.webp`}" alt="${p.name}" width="78" height="85"><div><h3>${p.name}</h3><span class="row-price">${money(p.price*n)}</span><div class="quantity"><button data-qty="${id}" data-delta="-1" aria-label="Уменьшить количество: ${p.name}">−</button><span aria-label="Количество">${n}</span><button data-qty="${id}" data-delta="1" aria-label="Увеличить количество: ${p.name}" ${n>=99?'disabled':''}>+</button></div></div><button class="remove-item" data-remove="${id}" aria-label="Удалить: ${p.name}">${svg('close')}</button></article>`}).join(''):'<div class="empty-state"><h3>Здесь начинается ваш лагерь</h3><p class="muted">Добавьте палатку и снаряжение — всё будет в одной корзине.</p><a class="btn" href="catalog.html">Открыть каталог</a></div>';document.getElementById('cart-bottom').hidden=!entries.length;document.getElementById('cart-total').textContent=money(entries.reduce((s,[id,n])=>s+findProduct(id).price*n,0))}
+let toastTimer;function toast(message){const t=document.getElementById('toast');t.innerHTML=message;t.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('visible'),5500)}
+function setFilter(kind){document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.filter===kind));document.querySelectorAll('#tent-grid .product-card').forEach(c=>c.hidden=kind!=='all'&&c.dataset.kind!==kind)}
+function showDetails(id){const p=findProduct(id);if(!p)return;document.getElementById('detail-content').innerHTML=`<div class="detail-body"><img src="${p.src || `assets/v5/${p.img}.webp`}" alt="${p.name}" width="800" height="800"><div class="detail-info"><span class="eyebrow">${categories[p.cat]}</span><h2 id="detail-title">${p.name}</h2><p>${p.desc}</p><div class="price">${money(p.price)}</div><p class="notice">Демонстрационный товар. Цена, наличие, размеры и комплектация будут подтверждены перед запуском продаж.</p><button class="btn add" data-add="${p.id}">${svg('cart')} В корзину</button><button class="text-btn" data-contact="all">Задать вопрос о товаре</button></div></div>`;openDialog('detail-dialog')}
+function contact(kind){const raw=config[kind];if(raw){if(kind==='phone'){location.href='tel:'+raw;return}if(kind==='email'){location.href='mailto:'+raw;return}if(/^(https:\/\/|viber:\/\/)/.test(raw)){window.open(raw,'_blank','noopener');return}}openDialog('contact-dialog')}
+document.addEventListener('click',e=>{const b=e.target.closest('button,a');if(!b)return;if(b.hasAttribute('data-close')){closeDialog(b.closest('dialog'));return}if(b.classList.contains('cart-trigger')){openDialog('cart-dialog');return}if(b.classList.contains('menu-trigger')){openDialog('menu-dialog');return}if(b.dataset.contact){contact(b.dataset.contact);return}if(b.dataset.add){const p=findProduct(b.dataset.add);if(!p)return;cart[p.id]=Math.min((cart[p.id]||0)+1,99);saveCart();toast(`${escapeHTML(p.name)} — в корзине <button class="cart-trigger">Открыть</button>`);return}if(b.dataset.details){showDetails(b.dataset.details);return}if(b.dataset.qty){const id=b.dataset.qty;const n=(cart[id]||0)+Number(b.dataset.delta);if(n<=0)delete cart[id];else cart[id]=Math.min(n,99);saveCart();return}if(b.dataset.remove){delete cart[b.dataset.remove];saveCart();return}if(b.dataset.filter){setFilter(b.dataset.filter);return}if(b.dataset.type){setFilter(b.dataset.type);return}if(b.hasAttribute('data-air-link')){setFilter('air');closeDialog(b.closest('dialog'));return}if(b.id==='demo-trigger'){openDialog('demo-dialog');return}if(b.id==='checkout-trigger'){openDialog('checkout-dialog');return}});
+document.querySelectorAll('#menu-dialog nav a').forEach(a=>a.addEventListener('click',()=>closeDialog(document.getElementById('menu-dialog'))));
+document.querySelectorAll('[data-year]').forEach(e=>e.textContent=new Date().getFullYear());
+// No personal data is put into localStorage; download is explicit and local only.
+document.getElementById('checkout-form').addEventListener('submit',e=>{e.preventDefault();if(!Object.keys(cart).length)return;const f=new FormData(e.target);const lines=['CAMPORA — черновик заказа (НЕ ОТПРАВЛЕН)','Демонстрационные цены; заказ не создан.','',...Object.entries(cart).map(([id,n])=>`${findProduct(id).name} × ${n} — ${money(findProduct(id).price*n)}`),'',document.getElementById('cart-total').textContent,'','Имя: '+f.get('name'),'Телефон: '+f.get('phone'),'Город: '+f.get('city'),'Комментарий: '+f.get('comment')];const url=URL.createObjectURL(new Blob(['\ufeff'+lines.join('\n')],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='CAMPORA-order-draft.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);document.getElementById('checkout-status').textContent='Черновик скачан. Заказ продавцу не отправлен.'});
+const form=document.getElementById('lead-form');if(form){if(config.leadEndpoint){form.querySelector('[type=submit]').disabled=false;document.getElementById('lead-status').textContent='Ответим по указанному телефону.'}form.addEventListener('submit',async e=>{e.preventDefault();if(!config.leadEndpoint)return;const button=form.querySelector('[type=submit]');const status=document.getElementById('lead-status');button.disabled=true;status.textContent='Отправляем…';try{const res=await fetch(config.leadEndpoint,{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}});if(!res.ok)throw Error();status.textContent='Заявка отправлена. Спасибо!';form.reset()}catch{status.textContent='Не удалось отправить. Попробуйте ещё раз.'}finally{button.disabled=false}})}
+// Configurable real contacts replace the explicit preview labels when supplied.
+if(config.phone){document.querySelectorAll('[data-contact=phone]').forEach(b=>b.innerHTML=svg('phone')+'<span>'+escapeHTML(config.phone)+'</span>')}
+if(config.email){document.querySelectorAll('[data-contact=email]').forEach(b=>b.innerHTML=svg('mail')+'<span>'+escapeHTML(config.email)+'</span>')}
+if(config.phone&&config.telegram&&config.viber)document.querySelectorAll('.contact-pending').forEach(e=>e.hidden=true);
+if(Number.isFinite(config.installationMinutes)&&config.installationMinutes>0){document.querySelectorAll('.demo-timing').forEach(e=>e.textContent=`Установка проверенной модели: около ${config.installationMinutes} минут.`)}
+renderCart();
+
+if(config.videoUrl && /^https:\/\//.test(config.videoUrl)){
+ const photo=document.querySelector('.demo-photo');
+ if(photo){const poster=photo.querySelector('img').src;const video=document.createElement('video');video.controls=true;video.playsInline=true;video.preload='none';video.poster=poster;video.src=config.videoUrl;video.style.cssText='width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:2';video.setAttribute('aria-label','Видео установки надувной палатки');photo.replaceChildren(video)}
+}
+
+// Shared category template: filters, sorting, editorial content and review slots.
+const params=new URLSearchParams(location.search);
+const category=categories[params.get('category')]?params.get('category'):null;
+const title=categories[category]||'Каталог';
+document.title=title+' — CAMPORA';
+document.getElementById('catalog-title').textContent=title;
+document.getElementById('category-crumb').textContent=title;
+const tents=category==='tents';
+document.getElementById('tent-tabs').hidden=!tents;
+document.getElementById('category-seo').hidden=!tents;
+document.getElementById('category-reviews').hidden=!tents;
+if(!tents){document.querySelector('.category-help h2').textContent='Поможем собрать ваш лагерь';document.querySelector('.category-help p').textContent='Подберём снаряжение для вашего формата отдыха.'}
+let kind='all',minPrice=0,maxPrice=Infinity;
+const grid=document.getElementById('catalog-grid');
+const cards=[...grid.children];
+function renderCategory(){
+ let count=0;
+ const order=document.getElementById('catalog-sort').value;
+ const sorted=[...cards].sort((a,b)=>order==='default'?cards.indexOf(a)-cards.indexOf(b):(findProduct(a.dataset.product).price-findProduct(b.dataset.product).price)*(order==='price-down'?-1:1));
+ sorted.forEach(card=>{const p=findProduct(card.dataset.product);const visible=(!category||p.cat===category)&&(!tents||kind==='all'||p.kind===kind)&&p.price>=minPrice&&p.price<=maxPrice;card.hidden=!visible;if(visible)count++;grid.append(card)});
+ document.getElementById('catalog-count').textContent='Товаров: '+count;
+ document.getElementById('catalog-empty').hidden=count>0;
+ document.getElementById('active-filters').textContent=minPrice>0||maxPrice<Infinity?'•':'';
+ document.querySelectorAll('[data-kind-filter]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.kindFilter===kind));
+}
+function resetCategory(){kind='all';minPrice=0;maxPrice=Infinity;document.getElementById('catalog-filter-form').reset();document.getElementById('filter-error').textContent='';renderCategory()}
+document.querySelectorAll('[data-kind-filter]').forEach(b=>b.addEventListener('click',()=>{kind=b.dataset.kindFilter;renderCategory()}));
+document.getElementById('catalog-sort').addEventListener('change',renderCategory);
+document.getElementById('filters-open').addEventListener('click',()=>openDialog('filters-dialog'));
+document.getElementById('catalog-filter-form').addEventListener('submit',e=>{e.preventDefault();const f=new FormData(e.target),lo=Number(f.get('min')||0),hi=f.get('max')===''?Infinity:Number(f.get('max'));if(hi<lo){document.getElementById('filter-error').textContent='Цена «до» должна быть не меньше цены «от».';return}minPrice=lo;maxPrice=hi;document.getElementById('filter-error').textContent='';renderCategory();closeDialog(document.getElementById('filters-dialog'))});
+document.getElementById('catalog-filter-form').addEventListener('reset',()=>{minPrice=0;maxPrice=Infinity;document.getElementById('filter-error').textContent='';renderCategory()});
+document.getElementById('clear-empty').addEventListener('click',resetCategory);
+document.querySelectorAll('[data-review]').forEach(b=>b.addEventListener('click',()=>{
+ const p=findProduct(b.dataset.review);document.getElementById('review-title').textContent=p.name;
+ const area=document.getElementById('review-content');area.replaceChildren();
+ const url=config.reviewVideos?.[p.id];
+ if(url&&/^https:\/\//.test(url)){const v=document.createElement('video');v.controls=true;v.playsInline=true;v.preload='metadata';v.src=url;v.poster=p.src||`assets/v5/${p.img}.webp`;area.append(v)}
+ else{const note=document.createElement('p');note.className='notice';note.textContent='Видеообзор этой модели готовится. Здесь появится ролик об устройстве и установке палатки.';area.append(note)}
+ const link=document.createElement('button');link.className='btn';link.dataset.details=p.id;link.textContent='Посмотреть товар';area.append(link);openDialog('review-dialog');
+}));
+document.getElementById('review-dialog').addEventListener('close',()=>document.querySelector('#review-content video')?.pause());
+renderCategory();
