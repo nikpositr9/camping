@@ -1,0 +1,114 @@
+[
+  {
+    "id": "air",
+    "name": "Надувная палатка",
+    "desc": "Просторный лагерь для семьи",
+    "price": 18900,
+    "img": "tent-air",
+    "cat": "tents",
+    "kind": "air"
+  },
+  {
+    "id": "classic",
+    "name": "Классическая палатка",
+    "desc": "Каркасная конструкция",
+    "price": 14900,
+    "img": "tent-classic",
+    "cat": "tents",
+    "kind": "classic"
+  },
+  {
+    "id": "roof",
+    "name": "Палатка на крышу авто",
+    "desc": "Для путешествий на автомобиле",
+    "price": 29900,
+    "img": "tent-roof",
+    "cat": "tents",
+    "kind": "roof"
+  },
+  {
+    "id": "canopy",
+    "name": "Тент для лагеря",
+    "desc": "Тень над вашей зоной отдыха",
+    "price": 3900,
+    "img": "canopy",
+    "cat": "tents",
+    "kind": "classic"
+  },
+  {
+    "id": "power",
+    "name": "Портативная электростанция",
+    "desc": "Энергия для ваших устройств",
+    "price": 12900,
+    "img": "power",
+    "cat": "power",
+    "solution": "Энергия"
+  },
+  {
+    "id": "lantern",
+    "name": "Кемпинговый фонарь",
+    "desc": "Свет за общим столом",
+    "price": 1200,
+    "img": "lantern",
+    "cat": "power",
+    "solution": "Свет"
+  },
+  {
+    "id": "heat",
+    "name": "Обогреватель для кемпинга",
+    "desc": "Подбор под условия использования",
+    "price": 2900,
+    "img": "heat",
+    "cat": "heating",
+    "solution": "Тепло"
+  },
+  {
+    "id": "shower",
+    "name": "Походный душ",
+    "desc": "Гигиена вдали от инфраструктуры",
+    "price": 1800,
+    "img": "shower",
+    "cat": "hygiene",
+    "solution": "Гигиена"
+  },
+  {
+    "id": "chair",
+    "name": "Складное кресло",
+    "desc": "Место для спокойного вечера",
+    "price": 1290,
+    "img": "chair",
+    "cat": "furniture"
+  },
+  {
+    "id": "table",
+    "name": "Складной стол",
+    "desc": "Для кухни и общего завтрака",
+    "price": 1890,
+    "img": "table",
+    "cat": "furniture"
+  },
+  {
+    "id": "sleep",
+    "name": "Спальный мешок",
+    "desc": "Уют после насыщенного дня",
+    "price": 2400,
+    "img": "sleeping-bag",
+    "cat": "sleep"
+  },
+  {
+    "id": "cook",
+    "name": "Набор посуды",
+    "desc": "Кухня, которую берёте с собой",
+    "price": 1600,
+    "img": "cookware",
+    "cat": "kitchen"
+  },
+  {
+    "id": "stove",
+    "name": "Походная горелка",
+    "desc": "Компактное решение для готовки",
+    "price": 990,
+    "img": "stove",
+    "cat": "kitchen"
+  }
+]
