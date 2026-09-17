@@ -1,9 +1,21 @@
 /* Shared contact placement and footer alignment on every storefront page. */
 .site-header .desktop-contacts{gap:8px}.site-header .desktop-contacts .messenger-link{width:36px;min-height:44px;justify-content:center}.site-header .desktop-contacts .messenger-link span{display:none}.site-header .desktop-contacts .messenger-link .icon{width:22px;height:22px}
 .messenger-link[data-contact=viber] .icon{color:#8060bb}.messenger-link[data-contact=telegram] .icon{color:#229ed9}.messenger-link[data-contact=whatsapp] .icon{color:#23b85b}
-.mobile-messengers{display:none}.footer-brand{text-align:center}.site-footer .footer-brand .brand{text-align:center}.site-footer .footer-brand p{text-align:center}.site-footer .footer-brand .socials{justify-content:center;gap:16px}.site-footer .footer-brand .socials .messenger-link{display:inline-flex;align-items:center;justify-content:center;width:44px;min-height:44px}.site-footer .footer-brand .socials .messenger-link span{display:none}.site-footer .footer-brand .socials .icon{width:26px;height:26px}
-.site-footer .footer-catalog h3{text-align:center;width:100%}.site-footer .footer-catalog .footer-categories{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 20px}
+.mobile-messengers{display:none}.footer-brand{text-align:left}.site-footer .footer-brand .brand{text-align:left}.site-footer .footer-brand p{text-align:left;margin:24px 0 16px}.site-footer .footer-brand .socials{justify-content:flex-start;gap:16px}.site-footer .footer-brand .socials .messenger-link{display:inline-flex;align-items:center;justify-content:flex-start;width:28px;min-height:44px}.site-footer .footer-brand .socials .messenger-link span{display:none}.site-footer .footer-brand .socials .icon{width:26px;height:26px}
+.site-footer .footer-catalog h3{text-align:left;width:100%}.site-footer .footer-catalog .footer-categories{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 20px}
 @media(min-width:801px) and (max-width:1100px){body .header-inner{grid-template-columns:160px minmax(0,1fr) auto 44px;gap:10px}body .desktop-contacts{grid-column:3;grid-row:1;margin:0}body .header-actions{grid-column:4;grid-row:1}}
 @media(max-width:800px){.site-header .mobile-messengers{display:flex;align-items:center;gap:0}.site-header .mobile-messengers .messenger-link{width:34px;min-height:44px;justify-content:center}.site-header .mobile-messengers .messenger-link span{display:none}.site-header .mobile-messengers .icon{width:21px;height:21px}.site-header .header-actions{gap:1px}.site-header .header-actions>.icon-btn{width:36px}.site-header .brand{font-size:21px}.site-header .brand span{display:none}}
 @media(max-width:480px){.site-footer .footer-catalog{grid-column:1/-1}.site-footer .footer-catalog .footer-categories{gap:0 24px}.site-footer .footer-catalog h3{margin-bottom:16px}.site-header .header-inner{gap:4px}.site-header .brand{font-size:20px;letter-spacing:.1em}.site-header .mobile-messengers .messenger-link{width:32px}}
 @media(max-width:360px){.site-header .brand{font-size:18px}.site-header .mobile-messengers .messenger-link{width:28px}.site-header .header-actions>.icon-btn{width:30px}.site-header .mobile-messengers .icon{width:19px;height:19px}}
+
+/* Aligned column headings and compact contact rhythm. */
+.site-footer .footer-grid{grid-template-columns:1fr 1.5fr 1.15fr 1.1fr;gap:48px;align-items:start}
+.site-footer .footer-column h3{font-size:14px;line-height:29px;min-height:29px;margin:0 0 16px;text-align:left}
+.site-footer .footer-column a,.site-footer .footer-column>button{font-size:13px;line-height:1.6;min-height:36px;padding:7px 0}
+.site-footer .footer-column:last-child{display:block;grid-column:auto}
+.site-footer .footer-column:last-child p{font-size:13px;line-height:36px;margin:0}
+.site-footer .footer-column:last-child small{font-size:12px;line-height:1.65;margin-top:8px}
+.site-footer .footer-brand .brand{font-size:24px;line-height:29px}
+.site-footer .footer-brand .brand span{font-size:12px;line-height:18px;margin-top:5px}
+@media(max-width:1100px){.site-footer .footer-grid{grid-template-columns:1fr 1.4fr;gap:36px 48px}}
+@media(max-width:600px){.site-footer .footer-grid{grid-template-columns:1fr 1fr;gap:32px 24px}.site-footer .footer-brand,.site-footer .footer-catalog{grid-column:1/-1}.site-footer .footer-column:last-child{grid-column:auto}.site-footer .footer-column h3{line-height:24px;min-height:24px;margin-bottom:12px}.site-footer .footer-column a,.site-footer .footer-column>button{min-height:44px}.site-footer .footer-column:last-child p{line-height:1.6;padding:7px 0;min-height:44px}.site-footer .footer-column:last-child>button{margin:0;display:flex}.site-footer .footer-catalog .footer-categories{gap:0 24px}}
